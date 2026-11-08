@@ -9,7 +9,7 @@ namespace Pawhaven.Data
         public static async Task SeedAsync(IServiceProvider services)
         {
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+            var userManager = services.GetRequiredService<UserManager<Customer>>();
             var configuration = services.GetRequiredService<IConfiguration>();
 
             const string roleName = "Admin";
@@ -47,7 +47,7 @@ namespace Pawhaven.Data
 
             if (admin == null)
             {
-                admin = new ApplicationUser
+                admin = new Customer
                 {
                     UserName = username,
                     Email = email,

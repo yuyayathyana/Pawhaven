@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Pawhaven.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class Customer : IdentityUser
     {
         [Required]
         [StringLength(100)]

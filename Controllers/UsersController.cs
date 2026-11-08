@@ -10,11 +10,11 @@ namespace Pawhaven.Controllers
     [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<Customer> _userManager;
         private readonly ApplicationDbContext _context;
 
         public UsersController(
-            UserManager<ApplicationUser> userManager,
+            UserManager<Customer> userManager,
             ApplicationDbContext context)
         {
             _userManager = userManager;

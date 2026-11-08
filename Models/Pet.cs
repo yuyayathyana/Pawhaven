@@ -25,7 +25,7 @@ namespace Pawhaven.Models
         public string UserId { get; set; } = string.Empty;
 
         [ForeignKey("UserId")]
-        public ApplicationUser? Owner { get; set; }
+        public Customer? Owner { get; set; }
 
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     }
