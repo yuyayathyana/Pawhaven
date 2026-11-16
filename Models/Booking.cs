@@ -11,7 +11,7 @@ namespace Pawhaven.Models
         public string UserId { get; set; } = string.Empty;
 
         [ForeignKey("UserId")]
-        public ApplicationUser? Owner { get; set; }
+        public Customer? Owner { get; set; }
 
         [Required]
         public int PetId { get; set; }

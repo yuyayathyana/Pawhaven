@@ -6,9 +6,9 @@ namespace Pawhaven.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly SignInManager<Customer> _signInManager;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager)
+        public AccountController(SignInManager<Customer> signInManager)
         {
             _signInManager = signInManager;
         }

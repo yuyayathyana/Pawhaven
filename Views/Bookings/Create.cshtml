@@ -1,0 +1,44 @@
+@model Pawhaven.Models.Booking
+
+@{
+    ViewData["Title"] = "Book a Grooming Session";
+}
+
+<h2>Book a Grooming Session</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Pet" class="control-label">Select Pet</label>
+                <select asp-for="Pet" class="form-control" asp-items="ViewBag.Pet">
+                    <option value="">-- Select Your Pet --</option>
+                </select>
+                <span asp-validation-for="Pet" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="GroomingService" class="control-label">Select Service</label>
+                <select asp-for="GroomingService" class="form-control" asp-items="ViewBag.GroomingService">
+                    <option value="">-- Select Service --</option>
+                </select>
+                <span asp-validation-for="GroomingService" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="AppointmentDate" class="control-label">Date and Time</label>
+                <input asp-for="AppointmentDate" class="form-control" type="datetime-local" />
+                <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Confirm Booking</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
