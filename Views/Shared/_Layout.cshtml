@@ -1,28 +1,45 @@
 ﻿
+@inject Microsoft.AspNetCore.Identity.UserManager<Pawhaven.Models.ApplicationUser> UserManager
+
+@{
+    var currentUser = User.Identity?.IsAuthenticated == true
+        ? await UserManager.GetUserAsync(User)
+        : null;
+
+    var displayName = !string.IsNullOrWhiteSpace(currentUser?.FullName)
+        ? currentUser.FullName
+        : currentUser?.UserName ?? "there";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Pawhaven</title>
+
     <script type="importmap"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Pawhaven.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm mb-3">
-            <div class="container-fluid">
 
-                <!-- Pawhaven Brand -->
-                <a class="navbar-brand fw-bold"
+<body class="pawhaven-body">
+
+    <header>
+        <nav class="navbar navbar-expand-lg pawhaven-navbar">
+            <div class="container">
+
+                <a class="navbar-brand pawhaven-brand"
                    asp-controller="Home"
                    asp-action="Index">
+                    <span class="brand-paw">🐾</span>
                     Pawhaven
                 </a>
 
-                <button class="navbar-toggler" type="button"
+                <button class="navbar-toggler"
+                        type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#mainNavbar"
                         aria-controls="mainNavbar"
@@ -33,33 +50,32 @@
 
                 <div class="navbar-collapse collapse" id="mainNavbar">
 
-                    <!-- LEFT NAVIGATION -->
-                    <ul class="navbar-nav me-auto">
+                    <ul class="navbar-nav me-auto pawhaven-nav">
 
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link"
                                        asp-controller="Admin"
                                        asp-action="Index">
-                                        Admin Dashboard
+                                        Dashboard
                                     </a>
                                 </li>
                             }
                             else if (User.IsInRole("Staff"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link"
                                        asp-controller="Staff"
                                        asp-action="Index">
-                                        Staff Dashboard
+                                        Dashboard
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link"
                                        asp-controller="Staff"
                                        asp-action="Bookings">
                                         Bookings
@@ -67,7 +83,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link"
                                        asp-controller="Staff"
                                        asp-action="Pets">
                                         View Pets
@@ -77,7 +93,7 @@
                             else if (User.IsInRole("Customer"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link"
                                        asp-controller="CustomerServices"
                                        asp-action="Index">
                                         Grooming Services
@@ -85,7 +101,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link"
                                        asp-controller="CustomerPets"
                                        asp-action="Index">
                                         My Pets
@@ -93,7 +109,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link"
                                        asp-controller="CustomerBookings"
                                        asp-action="Index">
                                         My Bookings
@@ -103,9 +119,8 @@
                         }
                         else
                         {
-                            <!-- Decorative quote for guests -->
                             <li class="nav-item">
-                                <span class="nav-link text-muted fst-italic">
+                                <span class="nav-link guest-quote">
                                     "Where every paw feels at home."
                                 </span>
                             </li>
@@ -113,14 +128,13 @@
 
                     </ul>
 
-                    <!-- RIGHT NAVIGATION -->
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav align-items-lg-center gap-lg-2">
 
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
-                                <span class="nav-link text-dark">
-                                    Hello, @User.Identity.Name!
+                                <span class="welcome-text">
+                                    Hello, @displayName!
                                 </span>
                             </li>
 
@@ -128,10 +142,11 @@
                                 <form asp-controller="Account"
                                       asp-action="Logout"
                                       method="post">
+
                                     @Html.AntiForgeryToken()
 
                                     <button type="submit"
-                                            class="nav-link btn btn-link text-dark">
+                                            class="btn pawhaven-logout">
                                         Logout
                                     </button>
                                 </form>
@@ -140,7 +155,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark"
+                                <a class="btn pawhaven-login"
                                    asp-controller="Account"
                                    asp-action="Login">
                                     Login
@@ -155,21 +170,30 @@
         </nav>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
+    <main role="main" class="pawhaven-main">
         <div class="container">
-            &copy; 2026 - Pawhaven
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="pawhaven-footer">
+        <div class="container text-center">
+            <p class="mb-1">
+                <span>🐾</span> Pawhaven
+            </p>
+
+            <small>
+                Where every paw feels at home.
+                © 2026 Pawhaven. All rights reserved.
+            </small>
         </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

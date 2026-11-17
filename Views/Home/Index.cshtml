@@ -1,8 +1,167 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="paw-hero">
+    <div class="paw-hero-content">
+        <span class="paw-hero-label">🐾 WELCOME TO PAWHAVEN</span>
+
+        <h1>
+            A happy place for
+            <span>happy paws.</span>
+        </h1>
+
+        <p>
+            Because your pets deserve more than just a grooming appointment.
+            Give them the care, comfort, and love they deserve at Pawhaven.
+        </p>
+
+        <div class="paw-hero-buttons">
+            @if (User.Identity?.IsAuthenticated == true &&
+                 User.IsInRole("Customer"))
+            {
+                <a asp-controller="CustomerServices"
+                   asp-action="Index"
+                   class="btn paw-btn-primary">
+                    Explore Grooming Services
+                </a>
+
+                <a asp-controller="CustomerPets"
+                   asp-action="Index"
+                   class="btn paw-btn-secondary">
+                    My Pets
+                </a>
+            }
+            else if (User.Identity?.IsAuthenticated != true)
+            {
+                <a asp-controller="Account"
+                   asp-action="Register"
+                   class="btn paw-btn-primary">
+                    Get Started
+                </a>
+
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   class="btn paw-btn-secondary">
+                    Sign In
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="paw-hero-decoration">
+        <div class="paw-illustration">
+            <span class="paw-big-emoji">🐶</span>
+            <span class="paw-small-emoji">🐾</span>
+            <span class="paw-heart">♡</span>
+        </div>
+        <div class="paw-decoration-caption">
+            <strong>Lots of love,</strong>
+            <span>for every little paw.</span>
+        </div>
+    </div>
+</section>
+
+<section class="paw-intro">
+    <span class="paw-section-label">A LITTLE ABOUT US</span>
+    <h2>Care that makes tails wag.</h2>
+    <p>
+        Pawhaven makes it easier to manage your pet's grooming needs.
+        Browse available services, keep track of your pets, and book
+        appointments in one convenient place.
+    </p>
+</section>
+
+<section class="paw-features">
+    <div class="paw-feature-card">
+        <div class="paw-feature-icon pink-icon">✿</div>
+        <h3>Grooming Services</h3>
+        <p>
+            Explore grooming options and find the right care for your furry
+            companion.
+        </p>
+        @if (User.Identity?.IsAuthenticated == true &&
+             User.IsInRole("Customer"))
+        {
+            <a asp-controller="CustomerServices" asp-action="Index">
+                Browse services →
+            </a>
+        }
+        else if (User.Identity?.IsAuthenticated != true)
+        {
+            <a asp-controller="Account" asp-action="Login">
+                Explore services →
+            </a>
+        }
+    </div>
+
+    <div class="paw-feature-card">
+        <div class="paw-feature-icon blue-icon">♡</div>
+        <h3>Your Pets</h3>
+        <p>
+            Keep your pets' information organized and accessible whenever
+            you need it.
+        </p>
+        @if (User.Identity?.IsAuthenticated == true &&
+             User.IsInRole("Customer"))
+        {
+            <a asp-controller="CustomerPets" asp-action="Index">
+                Manage my pets →
+            </a>
+        }
+        else if (User.Identity?.IsAuthenticated != true)
+        {
+            <a asp-controller="Account" asp-action="Register">
+                Create an account →
+            </a>
+        }
+    </div>
+
+    <div class="paw-feature-card">
+        <div class="paw-feature-icon pink-icon">☼</div>
+        <h3>Easy Booking</h3>
+        <p>
+            Request appointments and keep track of your grooming bookings
+            in one place.
+        </p>
+        @if (User.Identity?.IsAuthenticated == true &&
+             User.IsInRole("Customer"))
+        {
+            <a asp-controller="CustomerBookings" asp-action="Index">
+                View my bookings →
+            </a>
+        }
+        else if (User.Identity?.IsAuthenticated != true)
+        {
+            <a asp-controller="Account" asp-action="Register">
+                Book an appointment →
+            </a>
+        }
+    </div>
+</section>
+
+<section class="paw-bottom-banner">
+    <div>
+        <span>🐾 A little care goes a long way.</span>
+        <h2>Every pet deserves a happy, healthy day.</h2>
+    </div>
+
+    @if (User.Identity?.IsAuthenticated == true &&
+         User.IsInRole("Customer"))
+    {
+        <a asp-controller="CustomerServices"
+           asp-action="Index"
+           class="btn paw-btn-primary">
+            Book a Service
+        </a>
+    }
+    else if (User.Identity?.IsAuthenticated != true)
+    {
+        <a asp-controller="Account"
+           asp-action="Register"
+           class="btn paw-btn-primary">
+            Join Pawhaven
+        </a>
+    }
+</section>
